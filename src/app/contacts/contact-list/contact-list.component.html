@@ -1,19 +1,22 @@
-<div class=" panel-default">
+<!-- <div class=" panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Contacts</h3>
-    <button class="btn btn-success pull-right" (click)="createNewContact">New Contact</button>
-  </div>
+    <button class="btn btn-success pull-right" (click)="createNewContact()">New Contact</button>
+  </div> -->
 
   <div class="panel-body">
-    <div *ngFor="let contact of contacts" class="contact-item">
-      <img [src]="" alt="{{ contact.name }}" class="contact-image" style="max-height: 50px;">
-      <div class="contact-details">
-        <h4>{{ contact.name }}</h4>
+    <div *ngFor="let contact of contacts" class="media">
+      <div class="media-left">
+        <img class="media-object" [src]="contact.imageUrl" alt="{{ contact. name }}" style="width: 50px; height: 50px;">
+      </div>
+
+      <div class="media-body"></div>
+        <h4 class="media-heading">{{ contact.name }}</h4>
         <p>Email: {{ contact.email }}</p>
-        <p>Phone: {{ contact.phone }}</p>
+      </div>
     </div>
-  </div>
-</div>
+  
+
 
 
 
