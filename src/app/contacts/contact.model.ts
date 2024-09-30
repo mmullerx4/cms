@@ -1,13 +1,13 @@
 export class Contact {
-  public id: number;
+  public id: string;  //choosing to store id & phone as string
   public name: string;
   public email: string;
-  public phone: number;
+  public phone: string;
   public imageUrl: string;
   public group: Contact[];
 
 
-  constructor(id: number, name: string, email: string, phone: number, imageUrl: string, group: Contact[] = []) {
+  constructor(id: string, name: string, email: string, phone: string, imageUrl: string, group: Contact[] = []) {
     this.id = id;
     this.name = name;
     this.email = email;
