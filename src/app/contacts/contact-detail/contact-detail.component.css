@@ -21,3 +21,8 @@
 .button-container button {
   margin-left: 10px;
 }
+
+.btn-primary
+{
+  margin-right: 10px;
+}
