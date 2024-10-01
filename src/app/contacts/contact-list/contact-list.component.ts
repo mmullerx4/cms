@@ -13,7 +13,7 @@ export class ContactListComponent {
         name: "R. Kent Jackson",
          email: "jacksonk@byui.edu",
          phone: "208-496-3771",
-         imageUrl: "../../assets/images/jacksonk.jpg",
+         imageUrl: "assets/images/jacksonk.jpg",
          group: null
        },
        {
@@ -21,7 +21,7 @@ export class ContactListComponent {
          name: "Rex Barzee",
          email: "barzeer@byui.edu",
          phone: "208-496-3771",
-         imageUrl: "../..assets/images/jacksonk.jpg",
+         imageUrl: "assets/images/barzeer.jpg",
          group: null
        }
      ];
