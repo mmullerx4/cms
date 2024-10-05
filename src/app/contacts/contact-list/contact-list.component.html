@@ -1,3 +1,6 @@
+<!-- <div class="cl-panel-body">
+  <cms-contact-item></cms-contact-item>
+</div> -->
 <div class="panel panel-default">
   <div class="panel-heading">
     <h2 class="panel-title">Contacts</h2>
@@ -5,16 +8,11 @@
   </div>
 
   <div class="panel-body">
-    <div *ngFor="let contact of contacts" class="row">
-      <!--name on left-->
-      <div class="col-xs-8">
-        <h4>{{ contact.name }}</h4>
-      </div>
-      <div class="panel-body row media">
-        <!--image on right-->
-        <div class="col-xs-4 text-right">
-          <img class="media-object img-responsive" [src]="contact.imageUrl" alt="{{ contact.name }}" style="width: 50px; height: 50px;">
-        </div>
+    <div *ngFor="let contact of contacts"
+    class="row">
+      <!-- Load contactItemComponent for each contact -->
+       <div class="col-xs-12">
+        <cms-contact-item [contact]="contact"></cms-contact-item>
       </div>
     </div>
   </div>

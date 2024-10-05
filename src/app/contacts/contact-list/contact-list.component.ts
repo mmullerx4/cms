@@ -26,6 +26,14 @@ export class ContactListComponent {
        }
      ];
 
+constructor() {
+
+}
+
+ngOnInit() {
+
+}
+
   createNewContact() {
     //logic for creating new
   }

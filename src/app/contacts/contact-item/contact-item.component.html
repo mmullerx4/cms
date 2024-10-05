@@ -1,1 +1,15 @@
-<p>contact-item works!</p>
+
+    <a href="#" class="contact-item-link row">
+      <!--name on left-->
+      <div class="col-xs-8">
+        <h4>{{ contact.name }}</h4>
+      </div>
+
+        <!--image on right-->
+        <div class="col-xs-4 text-right">
+          <img class="media-object img-responsive" [src]="contact.imageUrl" alt="{{ contact.name }}" style="width: 50px; height: 50px;">
+        </div>
+    </a>
+
+
+
