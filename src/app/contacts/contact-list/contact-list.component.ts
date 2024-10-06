@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Contact } from '../contact.model'
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Contact } from '../contact.model';
 
 @Component({
   selector: 'cms-contact-list',
@@ -7,6 +7,8 @@ import { Contact } from '../contact.model'
   styleUrls: ['./contact-list.component.css']
 })
 export class ContactListComponent {
+  @Output() contactWasSelected = new EventEmitter<Contact>();
+
   contacts: Contact[] = [
        {
          id: "1",
@@ -26,17 +28,19 @@ export class ContactListComponent {
        }
      ];
 
-constructor() {
+  constructor() {}
 
-}
+  //Lifecyle hook
+  ngOnInit() {
 
-ngOnInit() {
+  }
 
-}
+  onContactSelected(contact: Contact) {
+    this.contactWasSelected.emit(contact);
+  }
 
   createNewContact() {
     //logic for creating new
   }
-
 
 }

@@ -1,15 +1,19 @@
 .panel-heading {
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-top: 10rem;
   padding-bottom: 3rem;
-  display: flex;
-  justify-content: flex-end;
+  /*display: flex;
+  justify-content: flex-end; */
 
  }
 
  h2 {
   font-size: x-large;
   font-weight: bolder;
+  margin-bottom: 3rem;
+
 }
 
 .button-container {
@@ -19,7 +23,7 @@
 }
 
 .button-container button {
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .btn-primary
