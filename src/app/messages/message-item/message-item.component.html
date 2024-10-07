@@ -1,33 +1,6 @@
-<div class="row">
-  <div class="col-xs-12">
-    <form (ngSubmit)="onSendMessage()"> <!-- Call onSendMessage on form submission -->
-      <div class="row">
-        <div class="col-sm-5 form-group">
-          <label for="subject">Subject</label>
-          <input
-            type="text"
-            id="subject"
-            class="form-control"
-            #subjectInput> <!-- Local reference for subject -->
-        </div>
-
-        <div class="col-sm-5 form-group">
-          <label for="msgText">Message</label>
-          <input
-            type="text"
-            id="msgText"
-            class="form-control"
-            #msgTextInput> <!-- Local reference for message text -->
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-12">
-          <button class="btn btn-success" type="submit" (click)="onSendMessage()">Send</button> <!-- Call onSendMessage when clicked -->
-          <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button> <!-- Call onClear when clicked -->
-        </div>
-      </div>
-    </form>
+<a class="list-group-item clearfix">
+  <div class=''>
+  <span class='messageHeader'>{{ message.sender }}</span>
+  <div class='messageText'>{{ message.messageText }}</div>
   </div>
-</div>
-
+  </a>
