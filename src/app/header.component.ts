@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'cms-header',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  //no inputs or additional properties for now.
+  @Output() selectedFeatureEvent = new EventEmitter<string>(); //output to be able to listen to outside of component for the parent component (header.html)
+
+  onSelected(selectedEvent: string) {
+    this.selectedFeatureEvent.emit(selectedEvent);
+  }
 }
