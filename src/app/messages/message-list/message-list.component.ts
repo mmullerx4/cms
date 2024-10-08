@@ -14,6 +14,8 @@ export class MessageListComponent implements OnInit {
     new Message('1', 'Hello World', 'This is the first message', 'Joe'),
     new Message('2', 'Second Hello!!', 'This is the second message', 'Sage'),
     new Message('3', 'Third Hello!!', 'This is the third message', 'Tate'),
+    new Message('4', 'Fourth Hello!!', 'This is the fourth message', 'Ephraim'),
+    new Message('5', 'Fifth Hello!!', 'This is the fifth message', 'Liam')
   ];
 
 
