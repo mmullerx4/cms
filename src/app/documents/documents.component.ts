@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Document } from './document.model';
 
 @Component({
@@ -7,13 +7,15 @@ import { Document } from './document.model';
   styleUrls: ['./documents.component.css']
 })
 export class DocumentsComponent implements OnInit {
-  selectedDocument: Document;
-
-  //documents = [];
+  selectedDocumentEvent: Document;
 
   constructor() {}
 
   ngOnInit() {}
+
+  onSelectedDocument(document: Document) {
+    this.selectedDocumentEvent = document;
+  }
 
 
 }

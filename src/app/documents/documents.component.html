@@ -1,15 +1,15 @@
 <div class="row">
   <div class="col-md-5">
   <cms-document-list
-  (selectedDocumentEvent)="selectedDocument"></cms-document-list>
+  (selectedDocumentEvent)="onSelectedDocument($event)"></cms-document-list>
   </div>
 
 <div class="col-md-4">
 <!-- Modify the <cms-document-detail> tag and assign the value of the selectedDocument variable into the document input variable defined in the DocumentDetailComponent.
 -->
 <cms-document-detail
-*ngIf="selectedDocument"
-    [document]="selectedDocument"
+*ngIf="selectedDocumentEvent"
+    [document]="selectedDocumentEvent"
     ></cms-document-detail>
 </div>
 </div>

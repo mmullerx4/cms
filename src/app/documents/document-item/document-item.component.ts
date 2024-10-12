@@ -11,8 +11,9 @@ import { Document } from '../document.model';
 export class DocumentItemComponent implements OnInit {
   @Input() document: Document; //so can receive from parent component - document
 
+
   constructor() {
-    this.document = null;
+    this.document = undefined;
   }
 
   ngOnInit() {}
