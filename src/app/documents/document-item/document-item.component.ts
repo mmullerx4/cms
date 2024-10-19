@@ -13,7 +13,7 @@ export class DocumentItemComponent implements OnInit {
 
 
   constructor() {
-    this.document = undefined;
+    //this.document = undefined;
   }
 
   ngOnInit() {}
