@@ -1,4 +1,8 @@
 
+.panel {
+  padding: .5rem;
+
+}
 .center-panel {
   margin-left: auto;
   margin-right: auto;
