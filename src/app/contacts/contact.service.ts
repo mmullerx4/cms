@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Contact } from "../contacts/contact.model";
 import { MOCKCONTACTS } from './MOCKCONTACTS';
 
@@ -6,6 +6,7 @@ import { MOCKCONTACTS } from './MOCKCONTACTS';
   providedIn: 'root'
 })
 export class ContactService {
+  contactSelectedEvent = new EventEmitter<Contact>();
   private contacts: Contact[] = [];
 
   // assign the value of the MOCKCONTACTS variable defined in the MOCKCONTACTS.ts file to the contacts class variable in the ContactService class.
@@ -26,6 +27,6 @@ export class ContactService {
     }
     return null;
   }
-  
+
 
 }
