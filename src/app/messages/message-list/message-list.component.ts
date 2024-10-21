@@ -26,9 +26,5 @@ export class MessageListComponent implements OnInit {
     this.messages = this.messageService.getMessages();
   }
 
-  //to push the new message
-  onAddMessage(message: Message) {
-    this.messages.push(message);
-  }
-
+  
 }

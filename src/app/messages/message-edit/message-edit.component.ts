@@ -16,12 +16,17 @@ export class MessageEditComponent {
 
   constructor(private messageService: MessageService) {}
 
-  onSendMessage() {
+  public onSendMessage(event: Event) {
+    console.log("Form submitted");
+    event.preventDefault();
+    console.log("Default prevented");
+
     const subjectValue = this.subjectInputRef.nativeElement.value;
     const msgTextValue = this.msgTextInputRef.nativeElement.value;
     const CurrentUserName = 'John Doe';
 
     const newMessage = new Message(Date.now().toString(), subjectValue, msgTextValue, CurrentUserName);
+
     this.messageService.addMessage(newMessage);
 
     this.addMessageEvent.emit(newMessage);
@@ -36,4 +41,9 @@ export class MessageEditComponent {
     this.msgTextInputRef.nativeElement.value = '';
 
   }
+
+  testClick() {
+    console.log("Send button clicked!");
+  }
+
 }
