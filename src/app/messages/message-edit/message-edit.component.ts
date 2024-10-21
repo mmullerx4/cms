@@ -16,6 +16,7 @@ export class MessageEditComponent {
 
   constructor(private messageService: MessageService) {}
 
+  //made this public to see if these console.logs will work
   public onSendMessage(event: Event) {
     console.log("Form submitted");
     event.preventDefault();
