@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, EventEmitter } from '@angular/core';
 import { Message } from '../message.model';
 import { MessageService } from '../message.service';
 
@@ -7,30 +7,26 @@ import { MessageService } from '../message.service';
   templateUrl: './message-edit.component.html',
   styleUrls: ['./message-edit.component.css']
 })
-export class MessageEditComponent {
+export class MessageEditComponent implements OnInit {
   @ViewChild('subjectInput') subjectInputRef: ElementRef;
   @ViewChild('msgTextInput') msgTextInputRef: ElementRef;
 
-  @Output() addMessageEvent = new EventEmitter<Message>();
+ //@Output() addMessageEvent = new EventEmitter<Message>();
 
 
   constructor(private messageService: MessageService) {}
 
-  //made this public to see if these console.logs will work
-  public onSendMessage(event: Event) {
-    console.log("Form submitted");
-    event.preventDefault();
-    console.log("Default prevented");
+  ngOnInit(): void {}
+
+  public onSendMessage() {
 
     const subjectValue = this.subjectInputRef.nativeElement.value;
     const msgTextValue = this.msgTextInputRef.nativeElement.value;
-    const CurrentUserName = 'John Doe';
 
-    const newMessage = new Message(Date.now().toString(), subjectValue, msgTextValue, CurrentUserName);
+    const message = new Message('1', subjectValue, msgTextValue, '1004');
 
-    this.messageService.addMessage(newMessage);
+    this.messageService.addMessage(message);
 
-    this.addMessageEvent.emit(newMessage);
 
     this.onClear();
 
@@ -41,10 +37,6 @@ export class MessageEditComponent {
     this.subjectInputRef.nativeElement.value = '';
     this.msgTextInputRef.nativeElement.value = '';
 
-  }
-
-  testClick() {
-    console.log("Send button clicked!");
   }
 
 }
