@@ -1,14 +1,20 @@
 <div class="row">
-  <div class="col-md-5"> 
-  <cms-document-list></cms-document-list>
+  <div class="col-md-5">
+    <cms-document-list></cms-document-list>
   </div>
 
-<div class="col-md-4">
-<!-- Modify the <cms-document-detail> tag and assign the value of the selectedDocument variable into the document input variable defined in the DocumentDetailComponent.
+  <!-- Navigation links for Child Routes
+   <div class="col-md-3">
+    <ul>
+      <li><a [routerLink]="['new']">New Document</a></li>
+      <li><a [routerLink]="['1']">Document Detail </a></li>
+      <li><a [routerLink]="['1/edit']">New Document</a></li>
+    </ul>
+   </div>
 -->
-<cms-document-detail
-*ngIf="selectedDocumentEvent"
-    [document]="selectedDocumentEvent"
-    ></cms-document-detail>
-</div>
+
+
+  <div class="col-md-4">
+    <router-outlet></router-outlet>
+  </div>
 </div>
