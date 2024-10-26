@@ -16,11 +16,15 @@ export class DocumentListComponent implements OnInit {
 
   //Lifecyle hook
   ngOnInit() {
-    this.documents = this.documentService.getDocuments(); //fetch docs on initialization
+    //subscribe to the documentChangedEvent
+    this.documentService.documentChangedEvent.subscribe(
+      (documents: Document[]) => {
+        this.documents = documents;
+      }
+    )
+    //fetch docs on initialization
+    this.documents = this.documentService.getDocuments();
   }
 
-  onSelectedDocument(document: Document) {
-    this.documentService.documentSelectedEvent.emit(document);
-  }
 
 }
