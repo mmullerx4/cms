@@ -1,10 +1,7 @@
-<!-- <div class="cl-panel-body">
-  <cms-contact-item></cms-contact-item>
-</div> -->
 <div class="panel panel-default">
   <div class="panel-heading">
     <h2 class="panel-title">Contacts</h2>
-    <button class="btn btn-success pull-right" (click)="createNewContact()">New Contact</button>
+    <a [routerLink]="['new']" class="btn btn-success pull-right">New Contact</a>
   </div>
 
   <div class="panel-body">
@@ -12,9 +9,7 @@
     class="row">
       <!-- Load contactItemComponent for each contact -->
        <div class="col-xs-12">
-        <cms-contact-item
-        [contact]="contact"
-        (click)="onSelected(contact)">
+        <cms-contact-item [contact]="contact">
       </cms-contact-item>
       </div>
     </div>

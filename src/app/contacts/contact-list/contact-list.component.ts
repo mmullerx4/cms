@@ -8,19 +8,17 @@ import { ContactService } from '../contact.service';
   styleUrls: ['./contact-list.component.css']
 })
 export class ContactListComponent implements OnInit {
-
   contacts: Contact[] = [];
 
-  //constructor is called when an instance of the class ^^ is created. It initializes the object.
-  //This is where we inject. And allows the class to use the methods and properties of ContactService
-  //private prevents the other class or instances from accessing directly.
-  //a reference to the contactService: type of contactService parameter(must be an instance of ContactService)
+
   constructor(private contactService: ContactService) {}
 
-  //Lifecyle hook
-  //call getContacts() from ContactService and assign the result to contacts array
-  //Since getContacts() is returning a plain array, you don't need to subscribe. Instead directly assign the result of getContacts()
   ngOnInit() {
+    this.contactService.contactChangedEvent.subscribe(
+      (contacts: Contact[]) => {
+        this.contacts = contacts;
+      });
+
     this.contacts = this.contactService.getContacts();
     }
 

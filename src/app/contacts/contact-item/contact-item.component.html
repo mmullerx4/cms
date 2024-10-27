@@ -1,5 +1,5 @@
 
-    <a href="#" class="contact-item-link row">
+    <a [routerLink]="['/contacts', contact.id]" class="contact-item-link row">
       <!--name on left-->
       <div class="col-xs-8">
         <h4>{{ contact.name }}</h4>
