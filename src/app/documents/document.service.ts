@@ -8,8 +8,11 @@ import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
   providedIn: 'root'
 })
 export class DocumentService {
+  //notify when document is selectd
   documentSelectedEvent = new EventEmitter<Document>();
   //documentChangedEvent = new EventEmitter<Document[]>();
+
+  //notify when the document list has changed
   documentListChangedEvent = new Subject<Document[]>();
 
   private maxDocumentId: number;
@@ -25,7 +28,7 @@ export class DocumentService {
     return this.documents.slice();
    }
 
-   getDocument(id: string): Document {
+   getDocument(id: string) {
     for(let document of this.documents) {
       if (document.id === id) {
         return document;
@@ -62,7 +65,7 @@ export class DocumentService {
    }
 
    addDocument(newDocument: Document) {
-    if(newDocument === undefined || newDocument === null) {
+    if(!newDocument) {
       return;
     }
     this.maxDocumentId++;

@@ -1,3 +1,7 @@
 input.ng-invalid {
   border: 1px solid red;
 }
+
+.btn-success {
+  margin-right: 10px;
+}

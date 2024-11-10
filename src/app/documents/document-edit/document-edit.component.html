@@ -1,16 +1,41 @@
-<form>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
   <div class="form-group">
     <label for="title">Document Title</label>
-    <input type="text" id="title" class="form-control">
+    <input
+    type="text"
+    class="form-control"
+    id="title"
+    name="title"
+    [(ngModel)]="document.name"
+    #name="ngModel"
+    required
+    [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched)}">
   </div>
   <div class="form-group">
     <label for="description">Document Description</label>
-    <textarea id="description" class="form-control"></textarea>
+    <textarea
+    id="description"
+    class="form-control"
+    name="description"
+    [(ngModel)]="document.description"></textarea>
   </div>
   <div class="form-group">
     <label for="url">Document URL</label>
-    <textarea id="url" class="form-control"></textarea>
+    <input
+    id="url"
+    class="form-control"
+    name="url"
+    [ngModel]="document.url"
+    #url="ngModel"
+    required
+    [ngClass]="{'is-invalid': url.invalid && (url.dirty || url.touched)}">
   </div>
-  <button type="submit" class="btn btn-success">Save</button>
+  <div class="alert alert-danger"
+  *ngIf="name.invalid || url.invalid">
+  The Document Title and Document URL are required fileds.</div>
+  <button
+  type="submit"
+  class="btn btn-success"
+  [disabled]="!f.valid">Save</button>
   <button type="submit" class="btn btn-primary">Cancel</button>
 </form>
