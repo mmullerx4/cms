@@ -1,8 +1,60 @@
-input
-{
-  margin: 10px;
+input.ng-invalid {
+  border: 1px solid red;
+}
+.required.ng-invalid {
+  border: 1px solid red;
 }
 
-.btn {
-  margin: 10px;
+.invalid.ng-invalid.ng-dirty {
+  border: 1px solid red;
+}
+
+.pad-left-right{
+  padding-left:.1rem;
+}
+
+.contact-form {
+  border: 2px solid lightgray; /* Solid border around the form */
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px; /* Optional rounded corners */
+}
+
+.drag-area {
+  border-top: 1px solid #aaa;  /* Faded border on top */
+  border-left: 1px solid #aaa; /* Faded border on left */
+  border-right: 1px solid #aaa; /* Faded border on right */
+  padding: 10px;
+  margin-top: 10px;
+  color: #aaa; /* Faded text color */
+  font-style: italic; /* Placeholder-style italic text */
+  border-radius: 8px 8px 0 0; /* Rounded top corners to match form */
+}
+
+
+.deleteButton {
+  margin-top: 1.5rem;
+  margin-left: -1.2rem;
+  width: 3.4rem;
+}
+
+.buttonDiv {
+  margin-top: 1.5rem;
+}
+
+.groupDiv {
+  min-height: 6rem;
+  border: solid thin lightgrey;
+}
+
+
+.btn-success {
+  margin-right: 10px;
+}
+
+.dragMsg {
+  font-size: 2rem;
+  color: darkgrey;
+  margin-left: 3rem;
 }

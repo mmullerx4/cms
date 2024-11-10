@@ -1,13 +1,74 @@
-<div>
-  <form>
 
-    <input type="text" placeholder="Name" [(ngModel)]="name" name="name" class="form-control">
-    <input type="text" placeholder="Phone" [(ngModel)]="phone" name="phone" class="form-control">
-    <input type="text" placeholder="Email" [(ngModel)]="email" name="email" class="form-control">
+  <form class="contact-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+      type="text"
+      class="form-control"
+      [ngModel]="contact?.name"
+      name="name"
+      required
+      #name="ngModel"
+      [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched)}">
 
-    <button type="submit" class="btn btn-success">Add Contact</button>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+      type="email"
+      id="email"
+      class="form-control"
+      [ngModel]="contact?.email"
+      name="email"
+      required
+      #email="ngModel"
+      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+      [ngClass]="{'is-invalid': email.invalid && (email.dirty || email.touched)}">
+      <div *ngIf="email.invalid && email.touched" class="alert alert-danger">
+        Enter a valid Email address.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input
+      type="text"
+      id="phone"
+      class="form-control"
+      [ngModel]="contact?.phone"
+      name="phone"
+      pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
+      #phone="ngModel">
+      <div *ngIf="phone.invalid && phone.touched" class="alert alert-danger">
+        Enter a valid phone number
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="imageUrl">Image URL</label>
+      <input
+      type="text"
+      id="imageUrl"
+      class="form-control"
+      [ngModel]="contact?.imageUrl"
+      name="imageUrl">
+
+    </div>
+
+      <label for="groupContacts">Group Contacts</label>
+      <div class="drag-area">
+        Drag group contacts here
+      </div>
+
+      <div class="alert alert-danger"  *ngIf="name.invalid || email.invalid">
+        The name and email fields are required
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-success"
+        [disabled]="f.invalid">Save</button>
+        <button type="submit" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+      </div>
   </form>
 
-</div>
 
 
