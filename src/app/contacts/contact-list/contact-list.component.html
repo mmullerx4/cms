@@ -6,9 +6,9 @@
 
   <div class="panel-body">
     <div *ngFor="let contact of contacts"
-    class="row">
+    class="row" cdkDrag [cdkDragData]="contact">
       <!-- Load contactItemComponent for each contact -->
-       <div class="col-xs-12">
+      <div class="col-xs-12">
         <cms-contact-item [contact]="contact"></cms-contact-item>
       </div>
     </div>

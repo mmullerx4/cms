@@ -5,3 +5,11 @@ input.ng-invalid {
 .btn-success {
   margin-right: 10px;
 }
+
+.document-form {
+  border: 2px solid lightgray; /* Solid border around the form */
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px; /* Optional rounded corners */
+}

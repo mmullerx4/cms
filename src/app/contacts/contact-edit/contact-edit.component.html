@@ -10,7 +10,6 @@
       required
       #name="ngModel"
       [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched)}">
-
     </div>
     <div class="form-group">
       <label for="email">Email</label>
@@ -51,16 +50,23 @@
       class="form-control"
       [ngModel]="contact?.imageUrl"
       name="imageUrl">
-
     </div>
 
       <label for="groupContacts">Group Contacts</label>
-      <div class="drag-area">
-        Drag group contacts here
-      </div>
+      <div class="row" id="groupList" style="min-height: 3rem;"
+        cdkDropList
+        [cdkDropListData]="groupContacts"
+        (cdkDropListDropped)="onDrop($event)">
 
-      <div class="alert alert-danger"  *ngIf="name.invalid || email.invalid">
-        The name and email fields are required
+        <p>Drag group contacts here</p>
+        <!-- Display the group contacts here -->
+        <div *ngFor="let contact of groupContacts; let i = index"
+          class="contact-item"
+          [ngClass]="{'dropped-contact': contact.dropped}">
+          <cms-contact-item [contact]="contact"></cms-contact-item>
+          <button class="btn btn-danger" (click)="onRemoveItem(i)">X</button>
+        </div>
+
       </div>
 
       <div>

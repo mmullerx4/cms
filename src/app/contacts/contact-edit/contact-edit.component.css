@@ -21,15 +21,19 @@ input.ng-invalid {
   border-radius: 8px; /* Optional rounded corners */
 }
 
-.drag-area {
-  border-top: 1px solid #aaa;  /* Faded border on top */
-  border-left: 1px solid #aaa; /* Faded border on left */
-  border-right: 1px solid #aaa; /* Faded border on right */
-  padding: 10px;
-  margin-top: 10px;
-  color: #aaa; /* Faded text color */
-  font-style: italic; /* Placeholder-style italic text */
-  border-radius: 8px 8px 0 0; /* Rounded top corners to match form */
+#groupList {
+  padding: 30px;
+}
+
+.dropped-contact {
+  transform: scale(0.8);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+p {
+  margin-left: 60px;
+
 }
 
 
