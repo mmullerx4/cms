@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { Message } from '../message.model';
 import { MessageService } from '../message.service';
 
@@ -8,6 +10,7 @@ import { MessageService } from '../message.service';
   styleUrls: ['./message-list.component.css']
 })
 export class MessageListComponent implements OnInit {
+  subscription: Subscription;
   selectedMessage: Message;
 
   //initialize with 3 message objects
@@ -17,14 +20,15 @@ export class MessageListComponent implements OnInit {
   constructor(private messageService: MessageService) {}
 
   ngOnInit() {
-    this.messageService.messageChangedEvent
+    this.subscription = this.messageService.messageChangedEvent
     .subscribe(
       (messages: Message[]) => {
         this.messages = messages;
       }
     );
-    this.messages = this.messageService.getMessages();
+    //this.messages = this.messageService.getMessages();
+    this.messageService.getMessages();
   }
 
-  
+
 }
