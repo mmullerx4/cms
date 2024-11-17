@@ -16,6 +16,8 @@ export class DocumentItemComponent implements OnInit {
     //this.document = undefined;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('Document item received:', this.document);
+  }
 
 }

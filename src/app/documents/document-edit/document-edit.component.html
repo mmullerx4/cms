@@ -1,11 +1,11 @@
 <form class="document-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
   <div class="form-group">
-    <label for="title">Document Title</label>
+    <label for="title">Document Name</label>
     <input
     type="text"
     class="form-control"
-    id="title"
-    name="title"
+    id="name"
+    name="name"
     [(ngModel)]="document.name"
     #name="ngModel"
     required
@@ -37,5 +37,5 @@
   type="submit"
   class="btn btn-success"
   [disabled]="!f.valid">Save</button>
-  <button type="submit" class="btn btn-primary">Cancel</button>
+  <button type="button" class="btn btn-primary">Cancel</button>
 </form>

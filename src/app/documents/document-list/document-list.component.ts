@@ -17,14 +17,15 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   //Lifecyle hook
   ngOnInit() {
-    //subscribe to the documentChangedEvent
+    // Subscribe to the documentListChangedEvent
     this.subscription = this.documentService.documentListChangedEvent.subscribe(
       (documentsList: Document[]) => {
         this.documents = documentsList;
       }
-    )
-    //fetch docs on initialization
-    this.documents = this.documentService.getDocuments();
+    );
+
+    // Fetch documents (this will trigger documentListChangedEvent)
+    this.documentService.getDocuments();
   }
 
   ngOnDestroy(): void {
