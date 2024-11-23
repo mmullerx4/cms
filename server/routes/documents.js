@@ -21,23 +21,42 @@ router.get('/:id', (req, res) => {
 
 // POST (create a new document)
 router.post('/', (req, res) => {
-  const newDocument = req.body;
-  if (documents.some((doc) => doc.id === newDocument.id)) {
-    res.status(409).json({ message: 'Document already exists' });
-  } else {
-    documents.push(newDocument);
-    res.status(201).json(newDocument);
+  const { id, name, description, url, children } = req.body;
+
+  // Validate input data
+  if (!id || !name || !description || !url) {
+    return res.status(400).json({ message: 'All fields are required.' });
   }
+
+  // Check for duplicate ID
+  if (documents.some((doc) => doc.id === id)) {
+    return res.status(409).json({ message: 'Document with this ID already exists.' });
+  }
+
+  // Create and add new Document instance
+  const newDocument = new Document(id, name, description, url, children || []);
+  documents.push(newDocument);
+  res.status(201).json(newDocument);
 });
 
 // PUT (update/replace an existing document)
 router.put('/:id', (req, res) => {
-  const index = documents.findIndex((doc) => doc.id == req.params.id);
+  const index = documents.findIndex((doc) => doc.id === req.params.id);
+
   if (index !== -1) {
-    documents[index] = req.body;
-    res.status(200).json(documents[index]);
+    const { id, name, description, url, children } = req.body;
+
+    // Validate input data
+    if (!id || !name || !description || !url) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    // Replace with new Document instance
+    const updatedDocument = new Document(id, name, description, url, children || []);
+    documents[index] = updatedDocument;
+    res.status(200).json(updatedDocument);
   } else {
-    res.status(404).json({ message: 'Document not found' });
+    res.status(404).json({ message: 'Document not found.' });
   }
 });
 

@@ -2,64 +2,84 @@ var express = require('express');
 var router = express.Router();
 
 // Sample data (replace with database logic as needed)
-let messages = [];
+let contacts = [];
 
-// GET all messages
+// GET all contacts
 router.get('/', (req, res) => {
-  res.status(200).json(messages);
+  res.status(200).json(contacts);
 });
 
-// GET a single message by ID
+// GET a single contact by ID
 router.get('/:id', (req, res) => {
-  const message = messages.find((doc) => doc.id == req.params.id);
-  if (message) {
-    res.status(200).json(message);
+  const contact = contacts.find((contact) => contact.id == req.params.id);
+  if (contact) {
+    res.status(200).json(contact);
   } else {
-    res.status(404).json({ message: 'Message not found' });
+    res.status(404).json({ message: 'Contact not found' });
   }
 });
 
-// POST (create a new message)
+// POST (create a new contact)
 router.post('/', (req, res) => {
-  const newMessage = req.body;
-  if (messages.some((doc) => doc.id === newMessage.id)) {
-    res.status(409).json({ message: 'Message already exists' });
-  } else {
-    messages.push(newMessage);
-    res.status(201).json(newMessage);
+  const { id, name, email, phone, imageUrl, group } = req.body;
+
+  // Validate input data (ensure all required fields are present)
+  if (!id || !name || !email || !phone || !imageUrl) {
+    return res.status(400).json({ message: 'All fields are required.' });
   }
+
+  // Check if the contact ID already exists
+  if (contacts.some((contact) => contact.id === id)) {
+    return res.status(409).json({ message: 'Contact with this ID already exists.' });
+  }
+
+  // Create and save a new contact
+  const newContact = new Contact(id, name, email, phone, imageUrl, group || []);
+  contacts.push(newContact);
+  res.status(201).json(newContact);
 });
 
-// PUT (update/replace an existing message)
+
+// PUT (update/replace an existing contact)
 router.put('/:id', (req, res) => {
-  const index = messages.findIndex((doc) => doc.id == req.params.id);
+  const index = contacts.findIndex((contact) => contact.id === req.params.id);
+
   if (index !== -1) {
-    messages[index] = req.body;
-    res.status(200).json(messages[index]);
+    const { id, name, email, phone, imageUrl, group } = req.body;
+
+    // Validate input data (ensure all required fields are present)
+    if (!id || !name || !email || !phone || !imageUrl) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    // Replace the existing contact with a new Contact instance
+    const updatedContact = new Contact(id, name, email, phone, imageUrl, group || []);
+    contacts[index] = updatedContact;
+    res.status(200).json(updatedContact);
   } else {
-    res.status(404).json({ message: 'Message not found' });
+    res.status(404).json({ message: 'Contact not found.' });
   }
 });
 
-// PATCH (modify an existing message)
+// PATCH (modify an existing contact)
 router.patch('/:id', (req, res) => {
-  const message = messages.find((doc) => doc.id == req.params.id);
-  if (message) {
-    Object.assign(message, req.body);
-    res.status(200).json(message);
+  const contact = contacts.find((contact) => contact.id == req.params.id);
+  if (contact) {
+    Object.assign(contact, req.body);
+    res.status(200).json(contact);
   } else {
-    res.status(404).json({ message: 'Message not found' });
+    res.status(404).json({ message: 'Contact not found' });
   }
 });
 
-// DELETE (remove a message)
+// DELETE (remove a contact)
 router.delete('/:id', (req, res) => {
-  const index = messages.findIndex((doc) => doc.id == req.params.id);
+  const index = contacts.findIndex((contact) => contact.id == req.params.id);
   if (index !== -1) {
-    messages.splice(index, 1);
-    res.status(200).json({ message: 'Message deleted' });
+    contacts.splice(index, 1);
+    res.status(200).json({ message: 'Contact deleted' });
   } else {
-    res.status(404).json({ message: 'Message not found' });
+    res.status(404).json({ message: 'Contact not found' });
   }
 });
 

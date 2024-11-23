@@ -20,6 +20,7 @@ const messagesRoutes = require('./server/routes/messages');
 var app = express(); // create an instance of express
 
 // Tell express to use the following parsers for POST data
+// This is Middleware for parsing and logging
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -45,10 +46,8 @@ app.use(express.static(path.join(__dirname, 'dist/cms/browser')));
 
 // Tell express to map the default route ('/') to the index route
 app.use('/', index);
-
 // ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
 // Map the routes for each entity
-app.use('/', index);
 app.use('/contacts', contactsRoutes);
 app.use('/documents', documentsRoutes);
 app.use('/messages', messagesRoutes);
@@ -58,8 +57,6 @@ app.use('/messages', messagesRoutes);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/cms/browser/index.html'));
 });
-
-
 
 
 // Define the port address and tell express to use this port
