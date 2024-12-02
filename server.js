@@ -5,18 +5,18 @@ var http = require('http');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 
 // import the routing file to handle the default (index) route
 var index = require('./server/routes/app');
 
 // ... ADD CODE TO IMPORT YOUR ROUTING FILES HERE ...
-//Import routing files
-var index = require('./server/routes/app');
+// Import routing files
 const contactsRoutes = require('./server/routes/contacts');
 const documentsRoutes = require('./server/routes/documents');
 const messagesRoutes = require('./server/routes/messages');
 
-
+// Create express app
 var app = express(); // create an instance of express
 
 // Tell express to use the following parsers for POST data
@@ -52,16 +52,23 @@ app.use('/contacts', contactsRoutes);
 app.use('/documents', documentsRoutes);
 app.use('/messages', messagesRoutes);
 
-
 // Tell express to map all other non-defined routes back to the index page
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/cms/browser/index.html'));
 });
 
-
 // Define the port address and tell express to use this port
 const port = process.env.PORT || '3000';
 app.set('port', port);
+
+// Establish a connection to the mongo database after setting up express
+mongoose.connect('mongodb://127.0.0.1:27017/cms')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
 
 // Create HTTP server.
 const server = http.createServer(app);
