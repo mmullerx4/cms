@@ -1,85 +1,114 @@
 var express = require('express');
 var router = express.Router();
 
-// Sample data (replace with database logic as needed)
-let documents = [];
+const sequenceGenerator = require('./sequenceGenerator');
+const Document = require('../models/document');
 
 // GET all documents
 router.get('/', (req, res) => {
-  res.status(200).json(documents);
+  Document.find()
+    .then((documents) => {
+      res.status(200).json(documents); // Respond with the list of documents
+    })
+    .catch((error) => {
+      res.status(500).json({ message: 'Error fetching documents', error }); // Handle errors
+    });
 });
 
 // GET a single document by ID
 router.get('/:id', (req, res) => {
-  const document = documents.find((doc) => doc.id == req.params.id);
-  if (document) {
-    res.status(200).json(document);
-  } else {
-    res.status(404).json({ message: 'Document not found' });
-  }
+  Document.findOne({ id: req.params.id })
+    .then((document) => {
+      if (document) {
+        res.status(200).json(document);
+      } else {
+        res.status(404).json({ message: 'Document not found' });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ message: 'Error fetching document', error });
+    });
 });
 
 // POST (create a new document)
-router.post('/', (req, res) => {
-  const { id, name, description, url, children } = req.body;
+router.post('/', (req, res, next) => {
+  const maxDocumentId = sequenceGenerator.nextId('documents');
 
-  // Validate input data
-  if (!id || !name || !description || !url) {
-    return res.status(400).json({ message: 'All fields are required.' });
-  }
+  const document = new Document({
+    id: maxDocumentId,
+    name: req.body.name,
+    description: req.body.description,
+    url: req.body.url,
+  });
 
-  // Check for duplicate ID
-  if (documents.some((doc) => doc.id === id)) {
-    return res.status(409).json({ message: 'Document with this ID already exists.' });
-  }
-
-  // Create and add new Document instance
-  const newDocument = new Document(id, name, description, url, children || []);
-  documents.push(newDocument);
-  res.status(201).json(newDocument);
+  document
+    .save()
+    .then((createdDocument) => {
+      res.status(201).json({
+        message: 'Document added successfully',
+        document: createdDocument,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: 'An error occurred',
+        error: error,
+      });
+    });
 });
 
-// PUT (update/replace an existing document)
-router.put('/:id', (req, res) => {
-  const index = documents.findIndex((doc) => doc.id === req.params.id);
+// PUT (update an existing document)
+router.put('/:id', (req, res, next) => {
+  Document.findOne({ id: req.params.id })
+    .then((document) => {
+      if (document) {
+        document.name = req.body.name;
+        document.description = req.body.description;
+        document.url = req.body.url;
 
-  if (index !== -1) {
-    const { id, name, description, url, children } = req.body;
-
-    // Validate input data
-    if (!id || !name || !description || !url) {
-      return res.status(400).json({ message: 'All fields are required.' });
-    }
-
-    // Replace with new Document instance
-    const updatedDocument = new Document(id, name, description, url, children || []);
-    documents[index] = updatedDocument;
-    res.status(200).json(updatedDocument);
-  } else {
-    res.status(404).json({ message: 'Document not found.' });
-  }
-});
-
-// PATCH (modify an existing document)
-router.patch('/:id', (req, res) => {
-  const document = documents.find((doc) => doc.id == req.params.id);
-  if (document) {
-    Object.assign(document, req.body);
-    res.status(200).json(document);
-  } else {
-    res.status(404).json({ message: 'Document not found' });
-  }
+        return Document.updateOne({ id: req.params.id }, document);
+      } else {
+        return Promise.reject({
+          message: 'Document not found.',
+        });
+      }
+    })
+    .then(() => {
+      res.status(204).json({
+        message: 'Document updated successfully',
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: error.message || 'An error occurred',
+        error: error,
+      });
+    });
 });
 
 // DELETE (remove a document)
-router.delete('/:id', (req, res) => {
-  const index = documents.findIndex((doc) => doc.id == req.params.id);
-  if (index !== -1) {
-    documents.splice(index, 1);
-    res.status(200).json({ message: 'Document deleted' });
-  } else {
-    res.status(404).json({ message: 'Document not found' });
-  }
+router.delete('/:id', (req, res, next) => {
+  Document.findOne({ id: req.params.id })
+    .then((document) => {
+      if (document) {
+        return Document.deleteOne({ id: req.params.id });
+      } else {
+        return Promise.reject({
+          message: 'Document not found.',
+        });
+      }
+    })
+    .then(() => {
+      res.status(204).json({
+        message: 'Document deleted successfully',
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: error.message || 'An error occurred',
+        error: error,
+      });
+    });
 });
 
 module.exports = router;

@@ -1,97 +1,81 @@
 var express = require('express');
 var router = express.Router();
 
-// Sample data (replace with database logic as needed)
-let messages = [];
+const sequenceGenerator = require('./sequenceGenerator');
+const Message = require('../models/message');
 
 // GET all messages
 router.get('/', (req, res) => {
-  res.status(200).json(messages);
+  Message.find()
+    .then((messages) => res.status(200).json(messages))
+    .catch((error) => res.status(500).json({ message: 'Error fetching messages', error }));
 });
 
-// GET a message by ID, subject, or sender
-router.get('/', (req, res) => {
-  const { id, subject, sender } = req.query;  // Get query parameters
-
-  // Filter messages based on query parameters
-  const foundMessages = messages.filter((msg) => {
-    return (
-      (id && msg.id === id) ||
-      (subject && msg.subject.includes(subject)) ||
-      (sender && msg.sender.includes(sender))
-    );
-  });
-
-  if (foundMessages.length > 0) {
-    res.status(200).json(foundMessages);
-  } else {
-    res.status(404).json({ message: 'No messages found with the given criteria' });
-  }
+// GET a message by ID
+router.get('/:id', (req, res) => {
+  Message.findOne({ id: req.params.id })
+    .then((message) => {
+      if (message) {
+        res.status(200).json(message);
+      } else {
+        res.status(404).json({ message: 'Message not found' });
+      }
+    })
+    .catch((error) => res.status(500).json({ message: 'Error fetching message', error }));
 });
-
 
 // POST (create a new message)
 router.post('/', (req, res) => {
-  const { id, subject, msgText, sender } = req.body;
+  const maxMessageId = sequenceGenerator.nextId('messages');
 
-  // Validate input data
-  if (!id || !subject || !msgText || !sender) {
-    return res.status(400).json({ message: 'All fields are required.' });
-  }
+  const message = new Message({
+    id: maxMessageId,
+    subject: req.body.subject,
+    msgText: req.body.msgText,
+    sender: req.body.sender,
+  });
 
-  // Check for duplicate ID
-  if (messages.some((msg) => msg.id === id)) {
-    return res.status(409).json({ message: 'Message with this ID already exists.' });
-  }
-
-  // Create and add new Message instance
-  const newMessage = new Message(id, subject, msgText, sender);
-  messages.push(newMessage);
-  res.status(201).json(newMessage);
+  message
+    .save()
+    .then((createdMessage) => {
+      res.status(201).json({
+        message: 'Message added successfully',
+        createdMessage: createdMessage,
+      });
+    })
+    .catch((error) => res.status(500).json({ message: 'An error occurred', error }));
 });
 
-// PUT (update/replace an existing Message)
+// PUT (update a message)
 router.put('/:id', (req, res) => {
-  const index = messages.findIndex((msg) => msg.id === req.params.id);
+  Message.findOne({ id: req.params.id })
+    .then((message) => {
+      if (message) {
+        message.subject = req.body.subject;
+        message.msgText = req.body.msgText;
+        message.sender = req.body.sender;
 
-  if (index !== -1) {
-    const { id, subject, msgText, sender } = req.body;
-
-    // Validate input data
-    if (!id || !subject || !msgText || !sender) {
-      return res.status(400).json({ message: 'All fields are required.' });
-    }
-
-    // Replace with new Message instance
-    const updatedMessage = new Message(id, subject, msgText, sender);
-    messages[index] = updatedMessage;
-    res.status(200).json(updatedMessage);
-  } else {
-    res.status(404).json({ message: 'Message not found.' });
-  }
-});
-
-// PATCH (modify an existing message)
-router.patch('/:id', (req, res) => {
-  const message = messages.find((msg) => msg.id == req.params.id);
-  if (message) {
-    Object.assign(message, req.body);
-    res.status(200).json(message);
-  } else {
-    res.status(404).json({ message: 'Message not found' });
-  }
+        return Message.updateOne({ id: req.params.id }, message);
+      } else {
+        return Promise.reject({ message: 'Message not found.' });
+      }
+    })
+    .then(() => res.status(204).json({ message: 'Message updated successfully' }))
+    .catch((error) => res.status(500).json({ message: error.message || 'An error occurred', error }));
 });
 
 // DELETE (remove a message)
 router.delete('/:id', (req, res) => {
-  const index = messages.findIndex((msg) => msg.id == req.params.id);
-  if (index !== -1) {
-    messages.splice(index, 1);
-    res.status(200).json({ message: 'Message deleted' });
-  } else {
-    res.status(404).json({ message: 'Message not found' });
-  }
+  Message.findOne({ id: req.params.id })
+    .then((message) => {
+      if (message) {
+        return Message.deleteOne({ id: req.params.id });
+      } else {
+        return Promise.reject({ message: 'Message not found.' });
+      }
+    })
+    .then(() => res.status(204).json({ message: 'Message deleted successfully' }))
+    .catch((error) => res.status(500).json({ message: error.message || 'An error occurred', error }));
 });
 
 module.exports = router;
-
